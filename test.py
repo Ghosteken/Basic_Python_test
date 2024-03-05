@@ -30,7 +30,7 @@ variance = sum((count / total_colors - mean_frequency) ** 2 for color, count in 
 
 red_probability = color_counts.get('RED', 0) / total_colors
 
-# Save colors and their frequencies in PostgreSQL database
+# PostgreSQL database
 conn = psycopg2.connect(database="db.sql", user="nicholas", password="nicholas", host="localhost", port="5000")
 cursor = conn.cursor()
 
@@ -40,7 +40,6 @@ for color, count in color_counts.items():
 conn.commit()
 conn.close()
 
-# Output results
 print("Mean color:", mean_color)
 print("Mode (most frequently worn) color:", mode_color)
 print("Median color:", median_color)

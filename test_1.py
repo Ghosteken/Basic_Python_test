@@ -2,7 +2,7 @@ from collections import Counter
 import sqlite3
 from bs4 import BeautifulSoup
 
-# Parse the HTML file
+
 with open("index.html", "r") as file:
     html_content = file.read()
 
@@ -29,24 +29,20 @@ variance = sum((count / total_colors - mean_frequency) ** 2 for color, count in 
 
 red_probability = color_counts.get('RED', 0) / total_colors
 
-# Save colors and their frequencies in SQLite database
 conn = sqlite3.connect("colors.db")  # Connect to SQLite database
 cursor = conn.cursor()
 
-# Create table if not exists
 cursor.execute('''CREATE TABLE IF NOT EXISTS color_frequencies (
                     color TEXT PRIMARY KEY,
                     frequency INTEGER
                 )''')
 
-# Insert or update frequencies
 for color, count in color_counts.items():
     cursor.execute("INSERT OR REPLACE INTO color_frequencies (color, frequency) VALUES (?, ?)", (color, count))
 
-conn.commit()  # Commit changes
-conn.close()   # Close connection
+conn.commit()  
+conn.close()   
 
-# Output results
 print("Mean color:", mean_color)
 print("Mode (most frequently worn) color:", mode_color)
 print("Median color:", median_color)
